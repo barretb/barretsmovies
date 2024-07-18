@@ -1,0 +1,42 @@
+<button routerLink="/">Back Home</button>
+<hr/>
+
+<img src="{{movieDetails.posterUrl}}" class="details-poster" />
+<p class="details-title">{{movieDetails.title}}</p>
+<div>
+    <span class="details-genre" *ngFor="let genre of movieDetails.genres" (click)="loadGenre(genre.title)">
+        {{genre.title}}
+    </span>
+</div>
+<div style="margin-top: 25px;">
+    <span class="details-rating">Rated: {{movieDetails.rating}}</span>
+    <span class="details-duration">Runtime: {{movieDetails.duration}}</span>
+</div>
+
+<p class="">{{movieDetails.summary}}</p>
+<p class=""><b><em>Starring:</em></b> <br/>
+    <span *ngFor="let actor of movieDetails.mainActors" class="details-director">{{actor}}<br/></span>
+</p>
+<p class=""><b><em>Directed by:</em></b> <br/>
+    <span *ngFor="let director of movieDetails.directors" class="details-director">{{director}}<br/></span>
+</p>
+<p class=""><b><em>Written by:</em></b> <br/>
+    <span *ngFor="let writer of movieDetails.writers" class="details-director">{{writer}}<br/></span>
+</p>
+<h4>Scores</h4>
+<table class="details-score-table">
+    <thead>
+        <tr>
+            <th>Average</th>
+            <th>Best</th>
+            <th>Worst</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{movieDetails.ratingValue}}</td>
+            <td>{{movieDetails.bestRating}}</td>
+            <td>{{movieDetails.worstRating}}</td>
+        </tr>
+    </tbody>
+</table>

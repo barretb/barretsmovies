@@ -1,0 +1,7 @@
+<div>
+    <h3>Genres</h3>
+    <ul>
+        <li class="genre-item" (click)="selectGenre(null)"><button type="button">All Genres</button></li>
+        <li class="genre-item" (click)="selectGenre(genre.title)" *ngFor="let genre of movieApiService.genres"><button type="button">{{genre.title}}</button></li>
+    </ul>
+</div>

@@ -1,0 +1,37 @@
+.details-poster {
+    float:right;
+    width: 40%;
+}
+
+.details-title {
+    font-variant: small-caps;
+    font-weight: bold;
+    font-size: 2em;
+}
+
+.details-director {
+    margin-left: 15px;
+    padding-left: 15px;
+}
+
+.details-duration {
+    float:right;
+    margin-right: 50px;
+}
+
+.details-genre {
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
+}
+
+.details-score-table {
+    width: 50%;
+    text-align: center;
+    border: 1px solid black;
+}
+
+.details-score-table td {
+    width: 33%;
+}

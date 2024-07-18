@@ -1,0 +1,46 @@
+<div class="content">
+  <div class="left-side">
+    <p>You can search by title or browse by genre</p>
+    <section id="filters">
+        <div style="float:right">
+            <input type="text" id="title-search" [(ngModel)]="searchText" (input)="search()" placeholder="Type title to search" />
+        </div>
+        <div *ngIf="movieApiService.currentGenre !== null">
+            Filtered by {{movieApiService.currentGenre}}
+        </div>
+    </section>
+    <section id="movie-list">
+      <article class="movie-block" *ngFor="let movie of movieApiService.movies">
+        <a routerLink="/details/{{ movie.id }}">
+          <img class="poster" src="{{ movie.posterUrl }}" />
+          <span class="movie-title">{{ movie.title }}</span>
+        </a>
+      </article>
+    </section>
+    <section id="pager">
+      <div style="float: right">
+        <span
+          (click)="goToPrevPage()"
+          *ngIf="movieApiService.currentPage > 1"
+          style="padding-right: 5px"
+        >
+          <button type="button">PREV</button>
+        </span>
+        Page {{ movieApiService.currentPage }} of
+        {{ movieApiService.totalPages }}
+        <span
+          (click)="goToNextPage()"
+          *ngIf="movieApiService.currentPage < movieApiService.totalPages"
+          style="padding-left: 5px"
+        >
+          <button type="button">NEXT</button>
+        </span>
+      </div>
+      <div>Movies Found: {{ movieApiService.totalResults }}</div>
+    </section>
+  </div>
+  <div class="divider" role="separator" aria-label="Divider"></div>
+  <div class="right-side">
+    <app-genres />
+  </div>
+</div>
