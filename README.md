@@ -21,7 +21,6 @@ One really cool thing I added was a user rating service so that the user can add
   - Ability to save, utilize user ratings
   - ability to allow users to write reviews
 - Additional error handling for 400/500 errors
-- A personal rating service
 
 
 ## Standard Angular stuff
