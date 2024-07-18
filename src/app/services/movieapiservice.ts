@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
 import { Genre } from '../models/genre';
 import { Movie } from '../models/movie';
+import { GenreStats } from '../models/genrestats';
 
 export interface MoviesResponse {
   data: Movie[];
@@ -129,6 +130,12 @@ export class MovieApiService {
       })
       .then((response) => {
         this.genres = response.data.data;
+        this.genres.forEach(element => {
+          this.service.get<GenreStats>('/movies/genres/' + element.id)
+            .then((result)=>{
+              element.totalMovies = result.data.totalMovies;
+            })
+        });
       });
   }
 

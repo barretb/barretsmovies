@@ -10,7 +10,7 @@
 </div>
 <div style="margin-top: 25px;">
     <span class="details-rating">Rated: {{movieDetails.rating}}</span>
-    <span class="details-duration">Runtime: {{movieDetails.duration}}</span>
+    <span class="details-duration">Runtime: {{movieDetails.duration | runtimetransform }}</span>
 </div>
 
 <p class="">{{movieDetails.summary}}</p>
@@ -30,6 +30,7 @@
             <th>Average</th>
             <th>Best</th>
             <th>Worst</th>
+            <th>My Rating</th>
         </tr>
     </thead>
     <tbody>
@@ -37,6 +38,11 @@
             <td>{{movieDetails.ratingValue}}</td>
             <td>{{movieDetails.bestRating}}</td>
             <td>{{movieDetails.worstRating}}</td>
+            <td>
+                <select [(ngModel)]="myRating" (change)="setMyRating($event)">
+                    <option *ngFor="let r of userRatings" [ngValue]="r.value">{{r.text}}</option>
+                </select>
+            </td>
         </tr>
     </tbody>
 </table>
