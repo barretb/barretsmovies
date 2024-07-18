@@ -13,9 +13,13 @@ I made sure my service handles 401/403 responses to get an updated auth token as
 One really cool thing I added was a user rating service so that the user can add their own rating to a movie. It only saves to local storage at the moment, but a full app would store it back to the API and let that alter the overall rating of the movie.
 
 
-## Future plans
+## Future ideas
 
-- Next I'd probably create a new API service to address the above quirks
+- Next I'd probably create a new API service to address the above quirks. A few things this would enable:
+  - Ability to filter by rating
+  - ability to search by actor/director/writer
+  - Ability to save, utilize user ratings
+  - ability to allow users to write reviews
 - Additional error handling for 400/500 errors
 - A personal rating service
 

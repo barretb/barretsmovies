@@ -1,3 +1,5 @@
+// Axios wrapper adapted from https://gist.github.com/santospatrick/752a605dca66cbbdba5abf62c6cfcd74 for the token and error handling blocks
+
 import { Injectable } from '@angular/core';
 import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
 import { Genre } from '../models/genre';
