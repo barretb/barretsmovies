@@ -3,7 +3,6 @@ import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
 import { Genre } from '../models/genre';
 import { Movie } from '../models/movie';
 
-
 export interface MoviesResponse {
   data: Movie[];
   totalPages: number;
@@ -22,11 +21,13 @@ export class MovieApiService {
 
   public movies: Movie[];
   public currentPage: number;
+  public pageSize: number;
   public totalPages: number;
   public totalResults: number;
   public currentGenre: string | null;
   public currentTitleFilter: string | null;
   public genres: Genre[];
+  
 
   constructor() {
     const baseUrl = 'https://0kadddxyh3.execute-api.us-east-1.amazonaws.com';
@@ -44,6 +45,7 @@ export class MovieApiService {
 
     this.movies = [];
     this.currentPage = 0;
+    this.pageSize = 25;
     this.totalPages = 0;
     this.totalResults = 0;
     this.currentGenre = null;
@@ -76,22 +78,16 @@ export class MovieApiService {
     }
   }
 
-  getMovies(
-    page: number | null,
-    limit: number | null
-  ) {
+  getMovies(page: number | null) {
     if (page === null || page <= 0) page = 1;
-    if (limit === null || limit <= 0) limit = 25;
-    let genre = this.currentGenre;
-    let search = this.currentTitleFilter;
 
     this.service
       .get<MoviesResponse>('/movies', {
         params: {
           page,
-          limit,
-          search,
-          genre,
+          limit : this.pageSize,
+          search : this.currentTitleFilter,
+          genre : this.currentGenre,
         },
       })
       .then((response) => {
@@ -99,10 +95,24 @@ export class MovieApiService {
         this.totalPages = response.data.totalPages;
         this.movies = response.data.data;
 
-        if(this.totalPages > 1){
-          //todo fix total results count
+        if (this.totalPages > 1) {
+          //kludge fix total results count
+          this.service
+            .get<MoviesResponse>('/movies', {
+              params: {
+                page: this.totalPages,
+                limit : this.pageSize,
+                search : this.currentTitleFilter,
+                genre : this.currentGenre,
+              },
+            })
+            .then((countResponse) => {
+              this.totalResults =
+                countResponse.data.data.length + (this.totalPages - 1) * this.pageSize;
+            });
+        } else {
+          this.totalResults = response.data.data.length;
         }
-        this.totalResults = response.data.data.length;
       });
   }
 
@@ -122,10 +132,24 @@ export class MovieApiService {
       });
   }
 
-   getMovieDetails(id: string) : Promise<Movie> {
-     return this.service.get<Movie>('/movies/' + id)
-     .then((result)=> {
+  getMovieDetails(id: string): Promise<Movie> {
+    return this.service.get<Movie>('/movies/' + id).then((result) => {
       return result.data as Movie;
-     });
+    });
+  }
+
+  changeGenre(genre: string | null) {
+    this.currentGenre = genre;
+    this.currentPage = 1;
+    this.getMovies(null);
+  }
+
+  changePageSize(newSize: number | null){
+    if(newSize === null){
+      this.pageSize = 25;
+    } else {
+      this.pageSize = newSize;
+    }
+    this.getMovies(null);
   }
 }

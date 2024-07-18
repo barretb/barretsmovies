@@ -16,17 +16,19 @@ import { FormsModule } from '@angular/forms';
 export class SearchComponent implements OnInit, OnDestroy{
   private searchSubject = new Subject<string>();
   public searchText:string = '';
+  public pageSize:number = 25;
+  public pageSizes:number[] = [10,25,50,100,1000];
 
   constructor(protected movieApiService: MovieApiService) {
     if (movieApiService.movies.length === 0) {
-      movieApiService.getMovies(null, null);
+      movieApiService.getMovies(null);
     }
   }
 
   ngOnInit(){
     this.searchSubject.pipe(debounceTime(300)).subscribe((searchValue) => {   
         this.movieApiService.currentTitleFilter = searchValue;
-        this.movieApiService.getMovies(null, null);
+        this.movieApiService.getMovies(null);
     })
   }
 
@@ -34,16 +36,20 @@ export class SearchComponent implements OnInit, OnDestroy{
     this.searchSubject.complete();
   }
 
+  pageSizeChange(newValue:any) {
+    this.movieApiService.changePageSize(this.pageSize);
+  }
+
   search() {
     this.searchSubject.next(this.searchText);
   }
 
   goToNextPage(){
-    this.movieApiService.getMovies(this.movieApiService.currentPage+1, 25);
+    this.movieApiService.getMovies(this.movieApiService.currentPage+1);
   }
 
   goToPrevPage(){
-    this.movieApiService.getMovies(this.movieApiService.currentPage-1, 25);
+    this.movieApiService.getMovies(this.movieApiService.currentPage-1);
   }
 
 

@@ -26,7 +26,7 @@ export class DetailsComponent {
 
     loadGenre(genreName: string){
       this.movieApiService.currentGenre = genreName;
-      this.movieApiService.getMovies(null, null);
+      this.movieApiService.getMovies(null);
       this.router.navigate(['']);
     }
 }

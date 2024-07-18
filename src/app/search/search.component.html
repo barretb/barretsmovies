@@ -1,13 +1,27 @@
 <div class="content">
   <div class="left-side">
-    <p>You can search by title or browse by genre</p>
+    <p>You can search by title and/or browse by genre</p>
     <section id="filters">
-        <div style="float:right">
-            <input type="text" id="title-search" [(ngModel)]="searchText" (input)="search()" placeholder="Type title to search" />
-        </div>
-        <div *ngIf="movieApiService.currentGenre !== null">
-            Filtered by {{movieApiService.currentGenre}}
-        </div>
+      <div style="float: right">
+        <input
+          type="text"
+          id="title-search"
+          [(ngModel)]="searchText"
+          (input)="search()"
+          placeholder="Type title to search"
+        />
+      </div>
+      <div *ngIf="movieApiService.currentGenre !== null">
+        Filtered by {{ movieApiService.currentGenre }}
+      </div>
+    </section>
+    <section id="help">
+      <div style="float:right">
+        Page Size: <select [(ngModel)]="pageSize" (change)="pageSizeChange($event)">
+          <option *ngFor="let p of pageSizes" [ngValue]="p">{{p}}</option>
+        </select>
+      </div>
+      <p>Click on a movie to see details</p>
     </section>
     <section id="movie-list">
       <article class="movie-block" *ngFor="let movie of movieApiService.movies">
